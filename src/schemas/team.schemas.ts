@@ -4,7 +4,8 @@ import { returnLeagueSchema } from "./league.schemas";
 import { returnStadiumSchema } from "./stadium.schemas";
 import { returnFormationSchema } from "./formation.schemas";
 import { returnNationalitySchema } from "./nationality.schemas";
-import { returnAllPlayersSchema } from "./player.schemas";
+import { returnAllPlayersSchema, returnPlayerSchema } from "./player.schemas";
+import { returnAllPlayerTeamSchema } from "./player-team.schemas";
 
 export const createTeamSchema = z.object({
   name: z
@@ -39,5 +40,17 @@ export type iReturnAllTeams = z.infer<typeof returnAllTeamsSchema>;
 
 export const returnTeamPlayerSchema = z.object({
   team: returnTeamSchema,
-  players: returnAllPlayersSchema
+  players: z
+    .object({
+      player: returnPlayerSchema,
+      starter: z.boolean().default(false),
+      captain: z.boolean().default(false),
+      long_fk_taker: z.boolean().default(false),
+      short_fk_taker: z.boolean().default(false),
+      left_ck_taker: z.boolean().default(false),
+      right_ck_taker: z.boolean().default(false),
+      penalty_taker: z.boolean().default(false),
+      number: z.number()
+    })
+    .array()
 });

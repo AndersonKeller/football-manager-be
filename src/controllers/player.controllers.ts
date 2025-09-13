@@ -35,6 +35,11 @@ import {
 } from "../schemas/setting.schemas";
 import { createPlayerSettingService } from "../service/player/create-player-setting.service";
 import { getPlayerSettingService } from "../service/player/get-player-setting.service";
+import {
+  iCraetePlayerTeam,
+  iReturnPlayerTeam
+} from "../schemas/player-team.schemas";
+import { playerIntoTeamService } from "../service/player/create-player-team.service";
 
 export const playerController = {
   createPlayer: async (req: Request, res: Response): Promise<Response> => {
@@ -134,5 +139,16 @@ export const playerController = {
     const player_setting: iReturnPlayerWhitSetting =
       await getPlayerSettingService(playerId);
     return res.status(200).json(player_setting);
+  },
+  playerIntoTeam: async (req: Request, res: Response): Promise<Response> => {
+    const playerId: number = parseInt(req.params.id);
+    const teamId: string = req.params.teamId;
+    const playerTeamData: iCraetePlayerTeam = req.body;
+    const playerTeam: iReturnPlayerTeam = await playerIntoTeamService(
+      playerId,
+      teamId,
+      playerTeamData
+    );
+    return res.status(201).json(playerTeam);
   }
 };

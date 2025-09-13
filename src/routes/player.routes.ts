@@ -10,6 +10,7 @@ import { ensureNationalityIsValidMiddleware } from "../middlewares/ensure-nation
 import { createPlayerPositionSchema } from "../schemas/player-position.schemas";
 import { createPlayerAppearanceSchema } from "../schemas/player-appearance.schemas";
 import { createPlayerSettingSchema } from "../schemas/setting.schemas";
+import { createPlayerTeamSchema } from "../schemas/player-team.schemas";
 
 export const playerRoutes: Router = Router();
 
@@ -64,3 +65,10 @@ playerRoutes.post(
   playerController.createPlayerSetting
 );
 playerRoutes.get("/:id/setting", playerController.getPlayerSetting);
+
+//team
+playerRoutes.post(
+  "/:id/team/:teamId",
+  ensureDataIsValidMiddleware(createPlayerTeamSchema),
+  playerController.playerIntoTeam
+);
