@@ -1,0 +1,217 @@
+{
+  "stadium": {
+    "initialcapacity": 5000,
+    "initialTicket": 5
+  },
+  "formation": {
+    "initial": {
+      "name": "4-4-2",
+      "defenders": 4,
+      "midfielders": 4,
+      "forwards": 2
+    }
+  },
+  "league_category": {
+    "default": {
+      "name": "Club",
+      "id": 2
+    }
+  },
+  "player": {
+    "defaultAbility": [
+      {
+        "id": 1,
+        "value": 50
+      },
+      {
+        "id": 2,
+        "value": 50
+      },
+      {
+        "id": 3,
+        "value": 50
+      },
+      {
+        "id": 4,
+        "value": 50
+      },
+      {
+        "id": 5,
+        "value": 50
+      },
+      {
+        "id": 6,
+        "value": 50
+      },
+      {
+        "id": 7,
+        "value": 50
+      },
+      {
+        "id": 8,
+        "value": 50
+      },
+      {
+        "id": 9,
+        "value": 50
+      },
+      {
+        "id": 10,
+        "value": 50
+      },
+      {
+        "id": 11,
+        "value": 50
+      },
+      {
+        "id": 12,
+        "value": 50
+      },
+      {
+        "id": 13,
+        "value": 50
+      },
+      {
+        "id": 14,
+        "value": 50
+      },
+      {
+        "id": 15,
+        "value": 50
+      },
+      {
+        "id": 16,
+        "value": 50
+      },
+      {
+        "id": 17,
+        "value": 50
+      },
+      {
+        "id": 18,
+        "value": 50
+      },
+      {
+        "id": 19,
+        "value": 50
+      },
+      {
+        "id": 20,
+        "value": 50
+      },
+      {
+        "id": 21,
+        "value": 50
+      },
+      {
+        "id": 22,
+        "value": 50
+      },
+      {
+        "id": 23,
+        "value": 50
+      },
+      {
+        "id": 24,
+        "value": 50
+      },
+      {
+        "id": 25,
+        "value": 50
+      },
+      {
+        "id": 26,
+        "value": 50
+      },
+      {
+        "id": 27,
+        "value": 5
+      },
+      {
+        "id": 28,
+        "value": 3
+      },
+      {
+        "id": 29,
+        "value": 3
+      }
+    ],
+    "defaultAppearance": {
+      "height": {
+        "min": 148,
+        "max": 205
+      },
+      "weigth": {
+        "min": 40,
+        "max": 123
+      }
+    },
+    "defaultSetting": {
+      "Age": "16",
+      "Stronger foot": ["L", "R"],
+      "Injury": ["A", "B", "C"]
+    }
+  },
+  "players": {
+    "titular": [
+      {
+        "name": "Ivarov",
+        "position": "GK"
+      },
+      {
+        "name": "Stremer",
+        "position": "CB"
+      },
+      {
+        "name": "Jaric",
+        "position": "CB"
+      },
+      {
+        "name": "Valeny",
+        "position": "CB"
+      },
+      {
+        "name": "Iorga",
+        "position": "DH"
+      },
+      {
+        "name": "Cellini",
+        "position": "DH"
+      },
+      {
+        "name": "Ximelez",
+        "position": "LH"
+      },
+      {
+        "name": "Espimas",
+        "position": "RH"
+      },
+      {
+        "name": "Minanda",
+        "position": "OH"
+      },
+      {
+        "name": "Castollo",
+        "position": "CF"
+      },
+      {
+        "name": "Ordaz",
+        "position": "CF"
+      }
+    ],
+    "reserva": [
+      { "name": "Kelsen", "position": "GK" },
+      { "name": "Zamenhof", "position": "GK" },
+      { "name": "Ceciu", "position": "CB" },
+      { "name": "Vornander", "position": "CB" },
+      { "name": "Eddingson", "position": "LB" },
+      { "name": "Nachdecal", "position": "RB" },
+      { "name": "Van der Berg", "position": "CMF" },
+      { "name": "Macco", "position": "RMF" },
+      { "name": "Ostwaut", "position": "AMF" },
+      { "name": "Burchet", "position": "LWF" },
+      { "name": "Huylenz", "position": "CF" },
+      { "name": "Njord", "position": "CF" }
+    ]
+  }
+}
