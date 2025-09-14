@@ -10,7 +10,7 @@ import { formation, stadium, league_category } from "../../config.json";
 import { AppError } from "../../error";
 export const createTeamService = async (
   teamData: iCreateTeam,
-  userId: string
+  userId: string | null
 ): Promise<iReturnTeam> => {
   const teamRepository: Repository<Team> = AppDataSource.getRepository(Team);
   const formationRepository: Repository<Formation> =
@@ -36,6 +36,7 @@ export const createTeamService = async (
     capacity: stadium.initialcapacity,
     ticket: stadium.initialTicket
   });
+  console.log("nat ser", createStadium);
   await stadiumRepository.save(createStadium);
   const findNationality: Nationality | null =
     await nationalityRepository.findOne({
@@ -46,6 +47,7 @@ export const createTeamService = async (
   if (!findNationality) {
     throw new AppError("nationality not found", 404);
   }
+
   let findLeague: League | null = await leagueRepository.findOne({
     where: {
       nationality: {
@@ -65,16 +67,17 @@ export const createTeamService = async (
   }
   const createTeam = teamRepository.create({
     ...teamData,
-    user: {
-      id: userId
-    },
-    league: findLeague,
+
+    league: { id: findLeague.id },
     formation: findFormation,
     stadium: createStadium,
     nationality: findNationality
   });
+  if (userId) {
+    createTeam.user!.id = userId;
+  }
   await teamRepository.save(createTeam);
-  const team = returnTeamSchema.parse(createTeam);
-
+  const team = returnTeamSchema.parse({ ...createTeam, league: findLeague });
+  console.log(team, "team service");
   return team;
 };

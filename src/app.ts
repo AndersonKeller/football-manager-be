@@ -16,11 +16,15 @@ import { positionCategoryRoutes } from "./routes/position-category.routes";
 import { positionRoutes } from "./routes/position.routes";
 import { appearanceRoutes } from "./routes/appearance.routes";
 import { settingRoutes } from "./routes/setting.routes";
+import { defaultRoutes } from "./routes/default/default.routes";
 
 const app: Application = express();
 app.use(express.json());
 app.use(cors());
 app.use(languageMiddleware);
+
+app.use("/default", defaultRoutes);
+
 app.use("/user", userRoutes);
 app.use("/team", teamRoutes);
 app.use("/league", leagueRoutes);

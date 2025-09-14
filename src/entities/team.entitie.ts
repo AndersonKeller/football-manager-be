@@ -29,8 +29,8 @@ class Team {
   @DeleteDateColumn({ type: "date", nullable: true })
   deletedAt: string | null;
 
-  @ManyToOne(() => User)
-  user: User;
+  @ManyToOne(() => User, { nullable: true })
+  user: User | null;
 
   @OneToMany(() => PlayerTeams, (playerTeams) => playerTeams.team)
   playerTeams: PlayerTeams[];

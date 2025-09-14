@@ -213,5 +213,8 @@
       { "name": "Huylenz", "position": "CF" },
       { "name": "Njord", "position": "CF" }
     ]
+  },
+  "leagues": {
+    "numberOfTeams": 16
   }
 }

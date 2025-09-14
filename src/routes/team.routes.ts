@@ -13,6 +13,9 @@ teamRoutes.post(
   teamController.createTeam
 );
 teamRoutes.get("", teamController.getAllTeams);
+teamRoutes.get("/:id", teamController.getTeamById);
 
 //player
 teamRoutes.get("/:id/player", teamController.getTeamPlayer);
+
+//by-nationalities

@@ -27,7 +27,7 @@ export const returnTeamSchema = createTeamSchema.extend({
   updatedAt: z.string(),
   deletedAt: z.string().nullable(),
   formation: returnFormationSchema,
-  user: returnUserSchema.pick({ id: true }),
+  user: returnUserSchema.pick({ id: true }).nullish(),
   stadium: returnStadiumSchema,
   league: returnLeagueSchema,
   nationality: returnNationalitySchema
