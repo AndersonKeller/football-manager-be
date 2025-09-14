@@ -6,8 +6,15 @@ import {
 } from "../../schemas/team.schemas";
 import { Formation, League, Nationality, Stadium, Team } from "../../entities";
 import { AppDataSource } from "../../data-source";
-import { formation, stadium, league_category } from "../../config.json";
+import {
+  formation,
+  stadium,
+  league_category,
+  leagues
+} from "../../config.json";
 import { AppError } from "../../error";
+
+import { createTeamsByNationalityService } from "../default/create-teams-by-nationality.service";
 export const createTeamService = async (
   teamData: iCreateTeam,
   userId: string | null
@@ -38,7 +45,7 @@ export const createTeamService = async (
       league: { category: true }
     }
   });
-
+  console.log(findTeamNotUser, "notuser?");
   if (findTeamNotUser && userId) {
     const createStadium = stadiumRepository.create({
       ...findTeamNotUser.stadium,
@@ -104,26 +111,88 @@ export const createTeamService = async (
     },
     relations: { nationality: true, category: true }
   });
+  console.log(findLeague, "findLeague");
   if (!findLeague) {
     findLeague = leagueRepository.create({
       category: league_category.default,
       nationality: findNationality,
       name: "LIGA " + findNationality.name,
+      division: 1,
       strip_name: "LIGA " + findNationality.name.substring(0, 2).toUpperCase()
     });
     await leagueRepository.save(findLeague);
-  }
-  const createTeam = teamRepository.create({
-    ...teamData,
+    for (const item of new Array(leagues.numberOfTeams - 1)) {
+      const createStadium = stadiumRepository.create({
+        name: "Generic",
+        capacity: stadium.initialcapacity,
+        ticket: stadium.initialTicket
+      });
 
-    league: { id: findLeague.id },
-    formation: findFormation,
-    stadium: createStadium,
-    nationality: findNationality
-  });
-  if (userId) {
-    createTeam.user!.id = userId;
+      await stadiumRepository.save(createStadium);
+      const createTeam = teamRepository.create({
+        name: "Teste " + "index",
+        short: "T" + "index",
+        stadium: createStadium,
+        league: { id: findLeague.id },
+        formation: findFormation,
+
+        nationality: findNationality
+      });
+      console.log(findNationality, createTeam, "create team default");
+      await teamRepository.save(createTeam);
+    }
+  } else {
+    const newLeague = leagueRepository.create({
+      category: league_category.default,
+      nationality: findNationality,
+      name: "LIGA " + findNationality.name,
+      strip_name: "LIGA " + findNationality.name.substring(0, 2).toUpperCase(),
+      division: findLeague.division + 1
+    });
+    await leagueRepository.save(newLeague);
+    findLeague = newLeague;
+    for (const item of new Array(leagues.numberOfTeams - 1)) {
+      const createStadium = stadiumRepository.create({
+        name: "Generic",
+        capacity: stadium.initialcapacity,
+        ticket: stadium.initialTicket
+      });
+
+      await stadiumRepository.save(createStadium);
+      const createTeam = teamRepository.create({
+        name: "Teste " + "index",
+        short: "T" + "index",
+        stadium: createStadium,
+        league: { id: findLeague.id },
+        formation: findFormation,
+
+        nationality: findNationality
+      });
+      console.log(findNationality, createTeam, "create team default");
+      await teamRepository.save(createTeam);
+    }
   }
+  const createTeam = !userId
+    ? teamRepository.create({
+        ...teamData,
+
+        league: { id: findLeague.id },
+        formation: findFormation,
+        stadium: createStadium,
+        nationality: findNationality
+      })
+    : teamRepository.create({
+        ...teamData,
+
+        league: { id: findLeague.id },
+        formation: findFormation,
+        stadium: createStadium,
+        nationality: findNationality,
+        user: {
+          id: userId
+        }
+      });
+
   await teamRepository.save(createTeam);
   const team = returnTeamSchema.parse({ ...createTeam, league: findLeague });
 

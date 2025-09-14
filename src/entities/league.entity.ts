@@ -21,6 +21,9 @@ class League {
   @Column({ length: 52, nullable: true, type: "varchar" })
   strip_name: string | null;
 
+  @Column({ type: "int" })
+  division: number;
+
   @OneToMany(() => Team, (team) => team.league)
   team: Team[];
 

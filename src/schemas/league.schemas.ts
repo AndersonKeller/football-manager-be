@@ -33,7 +33,8 @@ export const createLeagueSchema = z.object({
     .max(52, "max length is 255 characters"),
   category: returnLeagueCategorySchema.pick({
     id: true
-  })
+  }),
+  division: z.number()
 });
 export const returnLeagueSchema = createLeagueSchema.extend({
   id: z.number(),
