@@ -45,7 +45,19 @@ export const createTeamService = async (
       league: { category: true }
     }
   });
-  console.log(findTeamNotUser, "notuser?");
+  const indexFormation = Math.floor(Math.random() * 4);
+
+  let findFormation: Formation | null = await formationRepository.findOne({
+    where: {
+      name: formation.initial[indexFormation].name
+    }
+  });
+  if (!findFormation) {
+    findFormation = formationRepository.create(
+      formation.initial[indexFormation]
+    );
+    await formationRepository.save(findFormation);
+  }
   if (findTeamNotUser && userId) {
     const createStadium = stadiumRepository.create({
       ...findTeamNotUser.stadium,
@@ -60,7 +72,7 @@ export const createTeamService = async (
       ...findTeamNotUser,
       ...teamData,
       league: findTeamNotUser.league,
-      formation: findTeamNotUser.formation,
+      formation: findFormation,
       stadium: createStadium,
       nationality: findTeamNotUser.nationality,
       user: {
@@ -77,15 +89,6 @@ export const createTeamService = async (
     return team;
   }
 
-  let findFormation: Formation | null = await formationRepository.findOne({
-    where: {
-      name: formation.initial.name
-    }
-  });
-  if (!findFormation) {
-    findFormation = formationRepository.create(formation.initial);
-    await formationRepository.save(findFormation);
-  }
   const createStadium = stadiumRepository.create({
     name: teamData.stadium.name,
     capacity: stadium.initialcapacity,
@@ -109,9 +112,12 @@ export const createTeamService = async (
         id: findNationality.id
       }
     },
-    relations: { nationality: true, category: true }
+    relations: { nationality: true, category: true },
+    order: {
+      division: "DESC"
+    }
   });
-  console.log(findLeague, "findLeague");
+
   if (!findLeague) {
     findLeague = leagueRepository.create({
       category: league_category.default,
@@ -138,7 +144,7 @@ export const createTeamService = async (
 
         nationality: findNationality
       });
-      console.log(findNationality, createTeam, "create team default");
+
       await teamRepository.save(createTeam);
     }
   } else {
@@ -168,7 +174,7 @@ export const createTeamService = async (
 
         nationality: findNationality
       });
-      console.log(findNationality, createTeam, "create team default");
+
       await teamRepository.save(createTeam);
     }
   }

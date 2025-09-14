@@ -4,12 +4,32 @@
     "initialTicket": 5
   },
   "formation": {
-    "initial": {
-      "name": "4-4-2",
-      "defenders": 4,
-      "midfielders": 4,
-      "forwards": 2
-    }
+    "initial": [
+      {
+        "name": "4-4-2",
+        "defenders": 4,
+        "midfielders": 4,
+        "forwards": 2
+      },
+      {
+        "name": "4-3-3",
+        "defenders": 4,
+        "midfielders": 3,
+        "forwards": 3
+      },
+      {
+        "name": "3-5-2",
+        "defenders": 3,
+        "midfielders": 5,
+        "forwards": 2
+      },
+      {
+        "name": "4-5-1",
+        "defenders": 4,
+        "midfielders": 5,
+        "forwards": 1
+      }
+    ]
   },
   "league_category": {
     "default": {
