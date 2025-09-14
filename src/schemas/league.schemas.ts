@@ -56,7 +56,7 @@ export const returnLeagueTeamsSchema = z.object({
       updatedAt: z.string(),
       deletedAt: z.string().nullable(),
       formation: returnFormationSchema,
-      user: returnUserSchema.pick({ id: true }),
+      user: returnUserSchema.pick({ id: true }).nullish(),
       stadium: returnStadiumSchema,
       nationality: returnNationalitySchema
     })

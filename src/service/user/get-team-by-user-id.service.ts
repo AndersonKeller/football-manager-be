@@ -3,6 +3,7 @@ import { AppDataSource } from "../../data-source";
 import { Team } from "../../entities";
 import { iReturnTeam, returnTeamSchema } from "../../schemas/team.schemas";
 import { AppError } from "../../error";
+import { translate } from "../../middlewares/language.middleware";
 
 export const getTeamByUserService = async (
   userId: string
@@ -27,7 +28,7 @@ export const getTeamByUserService = async (
     }
   });
   if (!findTeam) {
-    throw new AppError("Team not found", 404);
+    throw new AppError(translate("TEAM_NOT_FOUND"), 404);
   }
   const team = returnTeamSchema.parse(findTeam);
 

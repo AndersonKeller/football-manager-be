@@ -1,4 +1,4 @@
-import { Repository } from "typeorm";
+import { IsNull, Not, Repository } from "typeorm";
 import {
   iCreateTeam,
   iReturnTeam,
@@ -22,6 +22,54 @@ export const createTeamService = async (
   const leagueRepository: Repository<League> =
     AppDataSource.getRepository(League);
 
+  const findTeamNotUser: Team | null = await teamRepository.findOne({
+    where: {
+      nationality: {
+        id: teamData.nationality.id
+      },
+      user: IsNull()
+    },
+
+    relations: {
+      user: true,
+      nationality: true,
+      formation: true,
+      stadium: { stadiumArea: true },
+      league: { category: true }
+    }
+  });
+
+  if (findTeamNotUser && userId) {
+    const createStadium = stadiumRepository.create({
+      ...findTeamNotUser.stadium,
+      name: teamData.stadium.name,
+      capacity: findTeamNotUser.stadium.capacity,
+      ticket: findTeamNotUser.stadium.capacity
+    });
+
+    await stadiumRepository.save(createStadium);
+
+    const updateTeam = teamRepository.create({
+      ...findTeamNotUser,
+      ...teamData,
+      league: findTeamNotUser.league,
+      formation: findTeamNotUser.formation,
+      stadium: createStadium,
+      nationality: findTeamNotUser.nationality,
+      user: {
+        id: userId!
+      }
+    });
+
+    await teamRepository.save(updateTeam);
+    const team = returnTeamSchema.parse({
+      ...updateTeam,
+      league: updateTeam.league
+    });
+
+    return team;
+  }
+
   let findFormation: Formation | null = await formationRepository.findOne({
     where: {
       name: formation.initial.name
@@ -36,7 +84,7 @@ export const createTeamService = async (
     capacity: stadium.initialcapacity,
     ticket: stadium.initialTicket
   });
-  console.log("nat ser", createStadium);
+
   await stadiumRepository.save(createStadium);
   const findNationality: Nationality | null =
     await nationalityRepository.findOne({
@@ -78,6 +126,6 @@ export const createTeamService = async (
   }
   await teamRepository.save(createTeam);
   const team = returnTeamSchema.parse({ ...createTeam, league: findLeague });
-  console.log(team, "team service");
+
   return team;
 };
