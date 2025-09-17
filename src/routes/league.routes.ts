@@ -24,3 +24,10 @@ leagueRoutes.get("/:id", leagueController.getLeagueById);
 
 //teams
 leagueRoutes.get("/:id/team", leagueController.getLeagueTeams);
+
+//schedule
+leagueRoutes.post("/:id/schedule", leagueController.createLeagueSchedule);
+leagueRoutes.get(
+  "/:id/team/:idteam/schedule",
+  leagueController.getLeagueTeamSchedule
+);

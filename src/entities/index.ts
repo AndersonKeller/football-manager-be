@@ -22,6 +22,8 @@ import { SettingValue } from "./settingValue.entitie";
 import { SpecialAbility } from "./specialAbility.entitie";
 import { Stadium } from "./stadium.entitie";
 import { StadiumArea } from "./stadiumArea.entitie";
+import { Schedule } from "./schedule.entitie";
+import { Game } from "./game.entitie";
 export {
   User,
   Team,
@@ -45,5 +47,7 @@ export {
   SettingValue,
   SpecialAbility,
   Stadium,
-  StadiumArea
+  StadiumArea,
+  Schedule,
+  Game
 };

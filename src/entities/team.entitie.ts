@@ -9,7 +9,15 @@ import {
   UpdateDateColumn
 } from "typeorm";
 
-import { Formation, League, Nationality, PlayerTeams, Stadium, User } from ".";
+import {
+  Formation,
+  Game,
+  League,
+  Nationality,
+  PlayerTeams,
+  Stadium,
+  User
+} from ".";
 
 @Entity("team")
 class Team {
@@ -34,6 +42,12 @@ class Team {
 
   @OneToMany(() => PlayerTeams, (playerTeams) => playerTeams.team)
   playerTeams: PlayerTeams[];
+
+  @OneToMany(() => Game, (game) => game.home)
+  home: Game[];
+  @OneToMany(() => Game, (game) => game.home)
+  away: Game[];
+
   @ManyToOne(() => League, (league) => league.team, {
     nullable: false
   })

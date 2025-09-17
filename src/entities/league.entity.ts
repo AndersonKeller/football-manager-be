@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn
 } from "typeorm";
 
-import { LeagueCategory, Nationality, Team } from ".";
+import { LeagueCategory, Nationality, Schedule, Team } from ".";
 
 @Entity("league")
 class League {
@@ -31,6 +31,9 @@ class League {
     nullable: false
   })
   nationality: Nationality;
+
+  @OneToMany(() => Schedule, (schedule) => schedule.league)
+  schedule: Schedule[];
 }
 
 export { League };
