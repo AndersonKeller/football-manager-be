@@ -6,12 +6,15 @@ import { translate } from "../../middlewares/language.middleware";
 import { any, number } from "zod";
 import { leagues } from "../../config.json";
 import { inflate } from "zlib";
+import { iCreateGame, iCreateRound } from "../../schemas/game.schemas";
+import { Round } from "../../entities/round.entitie";
 export const createLeagueScheduleService = async (leagueId: number) => {
   const leagueRepository: Repository<League> =
     AppDataSource.getRepository(League);
   const scheduleRepository: Repository<Schedule> =
     AppDataSource.getRepository(Schedule);
   const gameRepository: Repository<Game> = AppDataSource.getRepository(Game);
+  const roundRepository: Repository<Round> = AppDataSource.getRepository(Round);
 
   const findLeague: League | null = await leagueRepository.findOne({
     where: {
@@ -25,7 +28,6 @@ export const createLeagueScheduleService = async (leagueId: number) => {
   if (!findLeague) {
     throw new AppError(translate("LEAGUE_NOT_FOUND"), 404);
   }
-  console.log(findLeague, "findleague");
   let schedule = findLeague.schedule[0];
   if (!findLeague.schedule.length) {
     const createSchedule = scheduleRepository.create({
@@ -36,7 +38,7 @@ export const createLeagueScheduleService = async (leagueId: number) => {
     await scheduleRepository.save(createSchedule);
     schedule = createSchedule;
   }
-  let games: any = [];
+  let games: iCreateGame[] = [];
   const numTimes = findLeague.team.length;
 
   let round = 1;
@@ -73,19 +75,19 @@ export const createLeagueScheduleService = async (leagueId: number) => {
       }
     }
   }
-  const rodadas: any = [];
+  const rodadas: iCreateRound[] = [];
 
-  let rounds: any = [];
-  let gamesrodada: any = [];
+  let rounds: number[] = [];
+  let gamesrodada: iCreateGame[] = [];
   for (let i = 1; i <= leagues.numberOfTeams * 2 - 2; i++) {
     gamesrodada.push(games[i - 1]);
-    games.forEach((game: any, gameIndex: number) => {
-      const findHome = gamesrodada.find((item: any, index: number) => {
+    games.forEach((game) => {
+      const findHome = gamesrodada.find((item) => {
         if (item.home.id === game.home.id || item.home.id === game.away.id) {
           return item;
         }
       });
-      const findAway = gamesrodada.find((item: any, index: number) => {
+      const findAway = gamesrodada.find((item) => {
         if (item.away.id === game.away.id || item.away.id === game.home.id) {
           return item;
         }
@@ -97,27 +99,41 @@ export const createLeagueScheduleService = async (leagueId: number) => {
       }
     });
 
-    rodadas.push({ rodada: i, game: [...gamesrodada] });
+    rodadas.push({ round: i, game: [...gamesrodada] });
     gamesrodada = [];
   }
-  // const now = new Date();
-  // const date = new Date(now.getFullYear(), now.getMonth() + 1);
-  rodadas.forEach((rodada: any) => {
-    if (rodada.rodada % 2 != 0) {
-      rodada.date = new Date(
-        rodada.game[0].schedule.year,
-        rodada.game[0].schedule.month - 1,
-        Math.floor(rodada.rodada - rodada.rodada / 2) + 1
-      );
+  for (const rodada of rodadas) {
+    if (rodada.round % 2 != 0) {
+      for (const game of rodada.game) {
+        const createRound = roundRepository.create({
+          date: new Date(
+            game.schedule.year,
+            game.schedule.month - 1,
+            Math.floor(rodada.round - rodada.round / 2) + 1
+          ).toISOString(),
+          game: game,
+          round: rodada.round,
+          schedule: game.schedule
+        });
+        await roundRepository.save(createRound);
+      }
     } else {
-      console.log("else");
-      rodada.date = new Date(
-        rodada.game[0].schedule.year,
-        rodada.game[0].schedule.month - 1,
-        rodada.rodada / 2 + 15
-      );
+      for (const game of rodada.game) {
+        const createRound = roundRepository.create({
+          date: new Date(
+            game.schedule.year,
+            game.schedule.month - 1,
+            rodada.round / 2 + 15
+          ).toISOString(),
+          game: game,
+          round: rodada.round,
+          schedule: game.schedule
+        });
+        await roundRepository.save(createRound);
+      }
     }
-  });
+  }
+
   return {
     rodadasl: rodadas.length,
     rodadas

@@ -1,6 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+  Column,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn
+} from "typeorm";
 import { Team } from "./team.entitie";
 import { Schedule } from "./schedule.entitie";
+import { Round } from "./round.entitie";
 
 @Entity("game")
 class Game {
@@ -18,6 +25,9 @@ class Game {
 
   @ManyToOne(() => Schedule, (schedule) => schedule.game)
   schedule: Schedule;
+
+  @OneToMany(() => Round, (game) => game.game)
+  schedule_round: Game[];
 }
 
 export { Game };

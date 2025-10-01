@@ -7,6 +7,7 @@ import {
 } from "typeorm";
 import { League } from "./league.entity";
 import { Game } from "./game.entitie";
+import { Round } from "./round.entitie";
 
 @Entity("schedule")
 class Schedule {
@@ -23,7 +24,10 @@ class Schedule {
   league: League;
 
   @OneToMany(() => Game, (game) => game.schedule)
-  game: Game[];
+  game: Game;
+
+  @OneToMany(() => Round, (round) => round.schedule)
+  schedule: Round[];
 }
 
 export { Schedule };
