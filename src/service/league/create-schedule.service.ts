@@ -102,8 +102,10 @@ export const createLeagueScheduleService = async (leagueId: number) => {
     rodadas.push({ round: i, game: [...gamesrodada] });
     gamesrodada = [];
   }
+  //return rodadas;
   for (const rodada of rodadas) {
     if (rodada.round % 2 != 0) {
+      console.log("aki par");
       for (const game of rodada.game) {
         const createRound = roundRepository.create({
           date: new Date(
@@ -112,12 +114,13 @@ export const createLeagueScheduleService = async (leagueId: number) => {
             Math.floor(rodada.round - rodada.round / 2) + 1
           ).toISOString(),
           game: game,
-          round: rodada.round,
+          round: Math.floor(rodada.round - rodada.round / 2) + 1,
           schedule: game.schedule
         });
         await roundRepository.save(createRound);
       }
     } else {
+      console.log("aki impar");
       for (const game of rodada.game) {
         const createRound = roundRepository.create({
           date: new Date(
@@ -126,7 +129,7 @@ export const createLeagueScheduleService = async (leagueId: number) => {
             rodada.round / 2 + 15
           ).toISOString(),
           game: game,
-          round: rodada.round,
+          round: rodada.round / 2 + 15,
           schedule: game.schedule
         });
         await roundRepository.save(createRound);

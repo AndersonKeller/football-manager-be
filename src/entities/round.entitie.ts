@@ -16,7 +16,7 @@ class Round {
   @ManyToOne(() => Game, (game) => game.schedule_round)
   game: Game;
 
-  @ManyToOne(() => Schedule, (schedule) => schedule.schedule)
+  @ManyToOne(() => Schedule, (schedule) => schedule.round)
   schedule: Schedule;
 }
 

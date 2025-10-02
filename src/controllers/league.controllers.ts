@@ -16,6 +16,8 @@ import { getAllLeagueCategoryService } from "../service/league/get-all-league-ca
 import { getLeagueTeamsService } from "../service/league/get-league-teams.service";
 import { createLeagueScheduleService } from "../service/league/create-schedule.service";
 import { getLeagueTeamScheduleService } from "../service/league/get-league-team-schedule.service";
+import { getLeagueScheduleService } from "../service/league/get-league-schedule.service";
+import { iReturnAllRounds } from "../schemas/game.schemas";
 
 export const leagueController = {
   createCategory: async (req: Request, res: Response): Promise<Response> => {
@@ -58,6 +60,11 @@ export const leagueController = {
   ): Promise<Response> => {
     const leagueId: number = parseInt(req.params.id);
     const schedule = await createLeagueScheduleService(leagueId);
+    return res.status(200).json(schedule);
+  },
+  getLeagueSchedule: async (req: Request, res: Response): Promise<Response> => {
+    const leagueId: number = parseInt(req.params.id);
+    const schedule: iReturnAllRounds = await getLeagueScheduleService(leagueId);
     return res.status(200).json(schedule);
   },
   getLeagueTeamSchedule: async (

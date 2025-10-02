@@ -1,18 +1,19 @@
 import { Repository } from "typeorm";
-import { Schedule } from "../../entities";
 import { AppDataSource } from "../../data-source";
+import { Round } from "../../entities/round.entitie";
 
 export const getLeagueTeamScheduleService = async (
   leagueId: number,
   teamId: string
 ) => {
-  const scheduleRepository: Repository<Schedule> =
-    AppDataSource.getRepository(Schedule);
+  const roundRepository: Repository<Round> = AppDataSource.getRepository(Round);
 
-  const findSchedule: Schedule | null = await scheduleRepository.findOne({
+  const findRound: Round[] | null = await roundRepository.find({
     where: {
-      league: {
-        id: leagueId
+      schedule: {
+        league: {
+          id: leagueId
+        }
       },
       game: [
         {
@@ -32,9 +33,10 @@ export const getLeagueTeamScheduleService = async (
       game: {
         home: true,
         away: true
-      }
+      },
+      schedule: true
     },
-    order: { game: { round: "ASC" } }
+    order: { date: "ASC" }
   });
-  return { total: findSchedule?.game.length, findSchedule };
+  return findRound;
 };

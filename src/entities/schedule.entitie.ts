@@ -24,10 +24,10 @@ class Schedule {
   league: League;
 
   @OneToMany(() => Game, (game) => game.schedule)
-  game: Game;
+  game: Game[];
 
   @OneToMany(() => Round, (round) => round.schedule)
-  schedule: Round[];
+  round: Round[];
 }
 
 export { Schedule };
