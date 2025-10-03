@@ -236,5 +236,28 @@
   },
   "leagues": {
     "numberOfTeams": 16
-  }
+  },
+  "teams": [
+    {
+      "nationality": "austria",
+      "teamsNames": [
+        { "name": "FC BATE Borisov", "short": "BBV" },
+        { "name": "FC Minsk", "short": "MSk" },
+        { "name": "FC Vitebsk", "short": "VTK" },
+        { "name": "FC Gomel", "short": "GOM" },
+        { "name": "FC Neman Grodno", "short": "GRO" },
+        { "name": "FC Isloch", "short": "ISL" },
+        { "name": "FC Gorodeya", "short": "GDY" },
+        { "name": "FC Shakhter Soligorsk", "short": "SOL" },
+        { "name": "FC Torpedo-MAZ Minsk", "short": "MAZ" },
+        { "name": "FK Dnyapro Mogilev", "short": "DAM" },
+        { "name": "FC Dinamo Minsk", "short": "DMK" },
+        { "name": "FC Slavia Mozyr", "short": "MOZ" },
+        { "name": "Torpedo Belaz Zhodino", "short": "ZOD" },
+        { "name": "FC Brest", "short": "BRE" },
+        { "name": "Slutsksakhar Slutsk", "short": "SSK" },
+        { "name": "FC BGU Minsk", "short": "BGU" }
+      ]
+    }
+  ]
 }

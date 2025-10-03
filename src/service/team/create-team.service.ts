@@ -10,11 +10,11 @@ import {
   formation,
   stadium,
   league_category,
-  leagues
+  leagues,
+  teams
 } from "../../config.json";
 import { AppError } from "../../error";
 
-import { createTeamsByNationalityService } from "../default/create-teams-by-nationality.service";
 export const createTeamService = async (
   teamData: iCreateTeam,
   userId: string | null
@@ -127,7 +127,9 @@ export const createTeamService = async (
       strip_name: "LIGA " + findNationality.name.substring(0, 2).toUpperCase()
     });
     await leagueRepository.save(findLeague);
-    for (const item of new Array(leagues.numberOfTeams - 1)) {
+    for (const [index, item] of new Array(
+      leagues.numberOfTeams - 1
+    ).entries()) {
       const createStadium = stadiumRepository.create({
         name: "Generic",
         capacity: stadium.initialcapacity,
@@ -135,9 +137,13 @@ export const createTeamService = async (
       });
 
       await stadiumRepository.save(createStadium);
+      const findTeamsDefault = teams.find(
+        (item) =>
+          item.nationality.toLowerCase() === findNationality.name.toLowerCase()
+      );
       const createTeam = teamRepository.create({
-        name: "Teste " + "index",
-        short: "T" + "index",
+        name: findTeamsDefault?.teamsNames[index].name ?? "FC Club",
+        short: findTeamsDefault?.teamsNames[index].short ?? "T" + "index",
         stadium: createStadium,
         league: { id: findLeague.id },
         formation: findFormation,
@@ -157,7 +163,13 @@ export const createTeamService = async (
     });
     await leagueRepository.save(newLeague);
     findLeague = newLeague;
-    for (const item of new Array(leagues.numberOfTeams - 1)) {
+    const findTeamsDefault = teams.find(
+      (item) =>
+        item.nationality.toLowerCase() === findNationality.name.toLowerCase()
+    );
+    for (const [index, item] of new Array(
+      leagues.numberOfTeams - 1
+    ).entries()) {
       const createStadium = stadiumRepository.create({
         name: "Generic",
         capacity: stadium.initialcapacity,
@@ -166,8 +178,12 @@ export const createTeamService = async (
 
       await stadiumRepository.save(createStadium);
       const createTeam = teamRepository.create({
-        name: "Teste " + "index",
-        short: "T" + "index",
+        name:
+          findTeamsDefault?.teamsNames[index + leagues.numberOfTeams].name ??
+          "FC Club",
+        short:
+          findTeamsDefault?.teamsNames[index + leagues.numberOfTeams].short ??
+          "T" + "index",
         stadium: createStadium,
         league: { id: findLeague.id },
         formation: findFormation,
