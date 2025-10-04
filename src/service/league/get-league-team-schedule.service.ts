@@ -31,7 +31,9 @@ export const getLeagueTeamScheduleService = async (
 
     relations: {
       game: {
-        home: true,
+        home: {
+          stadium: true
+        },
         away: true
       },
       schedule: true
