@@ -11,9 +11,13 @@ import {
   stadium,
   league_category,
   leagues,
-  teams
+  teams,
+  players
 } from "../../config.json";
 import { AppError } from "../../error";
+import { createPlayerService } from "../player/create-player.service";
+import { playerIntoTeamService } from "../player/create-player-team.service";
+import { createPlayerPositionService } from "../player/create-player-position.service";
 
 export const createTeamService = async (
   teamData: iCreateTeam,
@@ -81,6 +85,54 @@ export const createTeamService = async (
     });
 
     await teamRepository.save(updateTeam);
+    for (const [index, player] of players.titular.entries()) {
+      const createPlayer = await createPlayerService({
+        name: player.name,
+        strip_name: player.name.slice(0, 3),
+        nationality: { id: player.nationality.id }
+      });
+      const res = await playerIntoTeamService(createPlayer.id, updateTeam.id, {
+        number: index + 1,
+        starter: true,
+        captain: false,
+        left_ck_taker: false,
+        long_fk_taker: false,
+        penalty_taker: false,
+        right_ck_taker: false,
+        short_fk_taker: false
+      });
+      const position = await createPlayerPositionService(
+        String(createPlayer.id),
+        {
+          position: player.position,
+          registered: true
+        }
+      );
+    }
+    for (const [index, player] of players.reserva.entries()) {
+      const createPlayer = await createPlayerService({
+        name: player.name,
+        strip_name: player.name.slice(0, 3),
+        nationality: { id: player.nationality.id }
+      });
+      const res = await playerIntoTeamService(createPlayer.id, updateTeam.id, {
+        number: index + 12,
+        starter: false,
+        captain: false,
+        left_ck_taker: false,
+        long_fk_taker: false,
+        penalty_taker: false,
+        right_ck_taker: false,
+        short_fk_taker: false
+      });
+      const position = await createPlayerPositionService(
+        String(createPlayer.id),
+        {
+          position: player.position,
+          registered: true
+        }
+      );
+    }
     const team = returnTeamSchema.parse({
       ...updateTeam,
       league: updateTeam.league
@@ -215,8 +267,57 @@ export const createTeamService = async (
         }
       });
 
+  console.log(players, "PLAYERS");
   await teamRepository.save(createTeam);
-  const team = returnTeamSchema.parse({ ...createTeam, league: findLeague });
+  for (const [index, player] of players.titular.entries()) {
+    const createPlayer = await createPlayerService({
+      name: player.name,
+      strip_name: player.name.slice(0, 3),
+      nationality: player.nationality
+    });
+    const res = await playerIntoTeamService(createPlayer.id, createTeam.id, {
+      number: index + 1,
+      starter: true,
+      captain: false,
+      left_ck_taker: false,
+      long_fk_taker: false,
+      penalty_taker: false,
+      right_ck_taker: false,
+      short_fk_taker: false
+    });
+    const position = await createPlayerPositionService(
+      String(createPlayer.id),
+      {
+        position: player.position,
+        registered: true
+      }
+    );
+  }
+  for (const [index, player] of players.reserva.entries()) {
+    const createPlayer = await createPlayerService({
+      name: player.name,
+      strip_name: player.name.slice(0, 3),
+      nationality: { id: player.nationality.id }
+    });
+    const res = await playerIntoTeamService(createPlayer.id, createTeam.id, {
+      number: index + 12,
+      starter: false,
+      captain: false,
+      left_ck_taker: false,
+      long_fk_taker: false,
+      penalty_taker: false,
+      right_ck_taker: false,
+      short_fk_taker: false
+    });
+    const position = await createPlayerPositionService(
+      String(createPlayer.id),
+      {
+        position: player.position,
+        registered: true
+      }
+    );
+  }
 
+  const team = returnTeamSchema.parse({ ...createTeam, league: findLeague });
   return team;
 };

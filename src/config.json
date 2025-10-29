@@ -176,62 +176,110 @@
     "titular": [
       {
         "name": "Ivarov",
-        "position": "GK"
+        "position": { "id": 1 },
+        "nationality": { "id": 2 }
       },
       {
         "name": "Stremer",
-        "position": "CB"
+        "position": { "id": 3 },
+
+        "nationality": { "id": 2 }
       },
       {
         "name": "Jaric",
-        "position": "CB"
+        "position": { "id": 3 },
+        "nationality": { "id": 3 }
       },
       {
         "name": "Valeny",
-        "position": "CB"
+        "position": { "id": 3 },
+        "nationality": { "id": 6 }
       },
       {
         "name": "Iorga",
-        "position": "DH"
+        "position": { "id": 4 },
+        "nationality": { "id": 10 }
       },
       {
         "name": "Cellini",
-        "position": "DH"
+        "position": { "id": 4 },
+        "nationality": { "id": 21 }
       },
       {
         "name": "Ximelez",
-        "position": "LH"
+        "position": { "id": 8 },
+        "nationality": { "id": 46 }
       },
       {
         "name": "Espimas",
-        "position": "RH"
+        "position": { "id": 8 },
+        "nationality": { "id": 46 }
       },
       {
         "name": "Minanda",
-        "position": "OH"
+        "position": { "id": 9 },
+        "nationality": { "id": 47 }
       },
       {
         "name": "Castollo",
-        "position": "CF"
+        "position": { "id": 12 },
+        "nationality": { "id": 50 }
       },
       {
         "name": "Ordaz",
-        "position": "CF"
+        "position": { "id": 12 },
+        "nationality": { "id": 96 }
       }
     ],
     "reserva": [
-      { "name": "Kelsen", "position": "GK" },
-      { "name": "Zamenhof", "position": "GK" },
-      { "name": "Ceciu", "position": "CB" },
-      { "name": "Vornander", "position": "CB" },
-      { "name": "Eddingson", "position": "LB" },
-      { "name": "Nachdecal", "position": "RB" },
-      { "name": "Van der Berg", "position": "CMF" },
-      { "name": "Macco", "position": "RMF" },
-      { "name": "Ostwaut", "position": "AMF" },
-      { "name": "Burchet", "position": "LWF" },
-      { "name": "Huylenz", "position": "CF" },
-      { "name": "Njord", "position": "CF" }
+      {
+        "name": "Kelsen",
+        "position": { "id": 1 },
+        "nationality": { "id": 42 }
+      },
+      {
+        "name": "Zamenhof",
+        "position": { "id": 1 },
+        "nationality": { "id": 43 }
+      },
+      { "name": "Ceciu", "position": { "id": 3 }, "nationality": { "id": 46 } },
+      {
+        "name": "Vornander",
+        "position": { "id": 3 },
+        "nationality": { "id": 52 }
+      },
+      {
+        "name": "Eddingson",
+        "position": { "id": 4 },
+        "nationality": { "id": 50 }
+      },
+      {
+        "name": "Nachdecal",
+        "position": { "id": 4 },
+        "nationality": { "id": 55 }
+      },
+      {
+        "name": "Van der Berg",
+        "position": { "id": 7 },
+        "nationality": { "id": 78 }
+      },
+      { "name": "Macco", "position": { "id": 8 }, "nationality": { "id": 78 } },
+      {
+        "name": "Ostwaut",
+        "position": { "id": 10 },
+        "nationality": { "id": 81 }
+      },
+      {
+        "name": "Burchet",
+        "position": { "id": 8 },
+        "nationality": { "id": 94 }
+      },
+      {
+        "name": "Huylenz",
+        "position": { "id": 12 },
+        "nationality": { "id": 31 }
+      },
+      { "name": "Njord", "position": { "id": 11 }, "nationality": { "id": 7 } }
     ]
   },
   "leagues": {

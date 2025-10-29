@@ -6,6 +6,7 @@ import {
 } from "../../schemas/player.schemas";
 import {
   Ability,
+  Nationality,
   Player,
   PlayerAbilities,
   PlayerSettings,
@@ -33,7 +34,19 @@ export const createPlayerService = async (
   const settingValueRepository: Repository<SettingValue> =
     AppDataSource.getRepository(SettingValue);
 
-  const createPlayer = playerRepository.create(playerData);
+  const nationalityRepository: Repository<Nationality> =
+    AppDataSource.getRepository(Nationality);
+
+  const findNationality: Nationality | null =
+    await nationalityRepository.findOne({
+      where: {
+        id: playerData.nationality.id
+      }
+    });
+  const createPlayer = playerRepository.create({
+    ...playerData,
+    nationality: findNationality!
+  });
   const settingRepository: Repository<Setting> =
     AppDataSource.getRepository(Setting);
   await playerRepository.save(createPlayer);

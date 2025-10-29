@@ -25,6 +25,9 @@ export const getTeamByUserService = async (
       },
       user: true,
       nationality: true
+    },
+    order: {
+      createdAt: { direction: "DESC" }
     }
   });
   if (!findTeam) {

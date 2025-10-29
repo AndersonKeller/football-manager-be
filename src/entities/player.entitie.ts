@@ -40,7 +40,7 @@ class Player {
   @OneToMany(() => PlayerSettings, (playerSettings) => playerSettings.player)
   settings: PlayerSettings[];
   @OneToMany(() => PlayerTeams, (playerTeams) => playerTeams.player)
-  team: PlayerTeams;
+  team: PlayerTeams[];
   @OneToMany(
     () => PlayerSpecialAbilities,
     (playerSpecialAbilities) => playerSpecialAbilities.player

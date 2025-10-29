@@ -14,19 +14,32 @@ export const getTeamPlayerService = async (teamId: string) => {
     },
     relations: {
       playerTeams: {
-        player: { nationality: true }
+        player: {
+          nationality: true,
+          abilities: { ability: true },
+          position: { position: { positionCategory: { positions: true } } }
+        }
       },
+
       formation: true,
       stadium: { stadiumArea: true },
       league: { category: true },
       user: true,
       nationality: true
+    },
+    order: {
+      playerTeams: {
+        player: {
+          position: { id: "ASC" },
+          abilities: { ability: { id: "ASC" } }
+        }
+      }
     }
   });
   if (!findTeam) {
     throw new AppError(translate("TEAM_NOT_FOUND"), 404);
   }
-
+  console.log(findTeam.playerTeams[0]);
   const team_player = returnTeamPlayerSchema.parse({
     team: findTeam,
     players: findTeam.playerTeams

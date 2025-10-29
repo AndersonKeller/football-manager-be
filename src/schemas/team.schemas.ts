@@ -6,6 +6,9 @@ import { returnFormationSchema } from "./formation.schemas";
 import { returnNationalitySchema } from "./nationality.schemas";
 import { returnAllPlayersSchema, returnPlayerSchema } from "./player.schemas";
 import { returnAllPlayerTeamSchema } from "./player-team.schemas";
+import { returnAbilitySchema } from "./ability.schemas";
+import { returnPositionSchema } from "./position.schemas";
+import { returnPlayerPositionSchema } from "./player-position.schemas";
 
 export const createTeamSchema = z.object({
   name: z
@@ -42,7 +45,15 @@ export const returnTeamPlayerSchema = z.object({
   team: returnTeamSchema,
   players: z
     .object({
-      player: returnPlayerSchema,
+      player: returnPlayerSchema.extend({
+        abilities: z
+          .object({
+            ability: returnAbilitySchema,
+            value: z.number()
+          })
+          .array(),
+        position: returnPlayerPositionSchema.omit({ player: true }).array()
+      }),
       starter: z.boolean().default(false),
       captain: z.boolean().default(false),
       long_fk_taker: z.boolean().default(false),
