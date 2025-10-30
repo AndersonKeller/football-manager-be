@@ -10,7 +10,11 @@ import { ensureNationalityIsValidMiddleware } from "../middlewares/ensure-nation
 import { createPlayerPositionSchema } from "../schemas/player-position.schemas";
 import { createPlayerAppearanceSchema } from "../schemas/player-appearance.schemas";
 import { createPlayerSettingSchema } from "../schemas/setting.schemas";
-import { createPlayerTeamSchema } from "../schemas/player-team.schemas";
+import {
+  createPlayerTeamSchema,
+  togglePlayerTeamSchema
+} from "../schemas/player-team.schemas";
+import { ensureTokenvalidMiddleware } from "../middlewares/ensure-token-is-valid.middleware";
 
 export const playerRoutes: Router = Router();
 
@@ -71,4 +75,9 @@ playerRoutes.post(
   "/:id/team/:teamId",
   ensureDataIsValidMiddleware(createPlayerTeamSchema),
   playerController.playerIntoTeam
+);
+playerRoutes.patch(
+  "/toggle/team/:teamId",
+  ensureDataIsValidMiddleware(togglePlayerTeamSchema),
+  playerController.togglePlayerIntoTeam
 );

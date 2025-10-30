@@ -1,7 +1,7 @@
 {
   "stadium": {
     "initialcapacity": 5000,
-    "initialTicket": 5
+    "initialTicket": 500
   },
   "formation": {
     "initial": [

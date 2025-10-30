@@ -1,6 +1,7 @@
 import { number, z } from "zod";
 import { returnPlayerSchema } from "./player.schemas";
 import { returnTeamSchema } from "./team.schemas";
+import { DeepPartial } from "typeorm";
 
 export const createPlayerTeamSchema = z.object({
   starter: z.boolean().default(false),
@@ -21,3 +22,22 @@ export const returnAllPlayerTeamSchema = returnPlayerTeamSchema.array();
 
 export type iCraetePlayerTeam = z.infer<typeof createPlayerTeamSchema>;
 export type iReturnPlayerTeam = z.infer<typeof returnPlayerTeamSchema>;
+
+export type iUpdatePlayerTeam = DeepPartial<iCraetePlayerTeam>;
+
+export const togglePlayerTeamSchema = z.object({
+  toReserve: returnPlayerSchema.pick({ id: true }),
+  toHolder: returnPlayerSchema.pick({ id: true })
+});
+export const returnTogglePlayerTeamSchema = z
+  .object({
+    starter: z.boolean().default(false),
+    player: returnPlayerSchema.pick({ id: true, name: true })
+  })
+
+  .array();
+
+export type iTogglePlayerTeam = z.infer<typeof togglePlayerTeamSchema>;
+export type iReturnTogglePlayerTeam = z.infer<
+  typeof returnTogglePlayerTeamSchema
+>;

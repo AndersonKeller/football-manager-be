@@ -37,9 +37,12 @@ import { createPlayerSettingService } from "../service/player/create-player-sett
 import { getPlayerSettingService } from "../service/player/get-player-setting.service";
 import {
   iCraetePlayerTeam,
-  iReturnPlayerTeam
+  iReturnPlayerTeam,
+  iReturnTogglePlayerTeam,
+  iTogglePlayerTeam
 } from "../schemas/player-team.schemas";
 import { playerIntoTeamService } from "../service/player/create-player-team.service";
+import { togglePlayerIntoTeamService } from "../service/player/toggle-player-into-team.service";
 
 export const playerController = {
   createPlayer: async (req: Request, res: Response): Promise<Response> => {
@@ -150,5 +153,14 @@ export const playerController = {
       playerTeamData
     );
     return res.status(201).json(playerTeam);
+  },
+  togglePlayerIntoTeam: async (req: Request, res: Response) => {
+    const togglePlayerIntoTeamData: iTogglePlayerTeam = req.body;
+    const teamId: string = req.params.teamId;
+    const result: iReturnTogglePlayerTeam = await togglePlayerIntoTeamService(
+      teamId,
+      togglePlayerIntoTeamData
+    );
+    return res.status(201).json(result);
   }
 };

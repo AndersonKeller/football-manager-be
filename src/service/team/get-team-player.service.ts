@@ -30,7 +30,7 @@ export const getTeamPlayerService = async (teamId: string) => {
     order: {
       playerTeams: {
         player: {
-          position: { id: "ASC" },
+          position: { position: { id: "ASC" } },
           abilities: { ability: { id: "ASC" } }
         }
       }
@@ -39,7 +39,7 @@ export const getTeamPlayerService = async (teamId: string) => {
   if (!findTeam) {
     throw new AppError(translate("TEAM_NOT_FOUND"), 404);
   }
-  console.log(findTeam.playerTeams[0]);
+
   const team_player = returnTeamPlayerSchema.parse({
     team: findTeam,
     players: findTeam.playerTeams

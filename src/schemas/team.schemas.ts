@@ -61,7 +61,8 @@ export const returnTeamPlayerSchema = z.object({
       left_ck_taker: z.boolean().default(false),
       right_ck_taker: z.boolean().default(false),
       penalty_taker: z.boolean().default(false),
-      number: z.number()
+      number: z.number(),
+      id: z.number()
     })
     .array()
 });
